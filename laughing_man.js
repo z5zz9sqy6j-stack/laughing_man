@@ -1,39 +1,45 @@
 const SQUARE_COUNT = 3;
+const SPEED = 5;
 const TIMER_SPEED = 16.6;
+
 document.addEventListener('DOMContentLoaded', () => {
- document.querySelector(".square").addEventListener("click", () => {
-            alert("OMG YOU CLICKED ME!");
-        });
-
-
 
     let box = document.querySelector("#box");
 
     for (let i = 0; i < SQUARE_COUNT; i++) {
-
         let square = document.createElement('img');
-
         square.src = "laughing_man.jpg";
         square.alt = "Catch the Laughing Man!";
         square.className = "square";
         box.appendChild(square);
     }
 
-    Array.from((box.children)).forEach(() => {
+    Array.from(box.children).forEach((element) => {
 
-        let dx=  5 * Math.random() * 2- 1;
-        let dy=  5 * Math.random() * 2- 1;
-        
+        const parent = element.parentElement;
+        const maxX = parent.clientWidth - element.clientWidth;
+        const maxY = parent.clientHeight - element.clientHeight;
 
-        let x = parseInt(Element.style.left) || 0;
-        let y = parseInt(Element.style.top) || 0;
+        let dx = SPEED * (Math.random() * 2 - 1);
+        let dy = SPEED * (Math.random() * 2 - 1);
+
+        let x = parseInt(element.style.left) || 225;
+        let y = parseInt(element.style.top) || 175;
+
         setInterval(() => {
-        x += dx;
-        y += dy;
-    
-        element.style.left = x + "px";
-        element.style.top = y + "px";
+            
+            if (x <= 0 || x >= maxX) {dx*= -1;}
+            if (y <= 0 || y >= maxY) {dy *= -1;}
+            
+            
+            x += dx;
+            y += dy;
 
-} , TIMER_SPEED) 
-    });     
+            
+
+            element.style.left = x + "px";
+            element.style.top = y + "px";
+        }, TIMER_SPEED);
+    });
+
 });
